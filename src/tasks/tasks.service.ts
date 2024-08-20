@@ -29,7 +29,7 @@ export class TasksService {
     return task;
   }
 
-  updateTaskById(id: string, status: TaskStatus): Task {
+  updateTaskStatus(id: string, status: TaskStatus): Task {
     const task = this.tasks.find((task) => task.id === id);
     task.status = status;
 

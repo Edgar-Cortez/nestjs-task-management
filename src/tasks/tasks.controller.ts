@@ -31,11 +31,11 @@ export class TasksController {
   }
 
   @Patch('/:id/status')
-  updateTaskById(
+  updateTaskStatus(
     @Param('id') id: string,
     @Body('status') status: TaskStatus,
   ): Task {
-    return this.tasksService.updateTaskById(id, status);
+    return this.tasksService.updateTaskStatus(id, status);
   }
 
   @Delete('/:id')
