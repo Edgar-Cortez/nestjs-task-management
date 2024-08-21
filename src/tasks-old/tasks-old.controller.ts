@@ -8,11 +8,11 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { TasksService } from './tasks.service';
-import { TaskStatus } from './tasks-status.enum';
-import { CreateTaskDto } from './dto/create-task.dto';
-import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
-import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
+import { TasksService } from './tasks-old.service';
+import { TaskStatus } from './tasks-old-status.enum';
+import { CreateTaskDto } from './dto/create-task-old.dto';
+import { GetTasksFilterDto } from './dto/get-tasks-filter-old.dto';
+import { UpdateTaskStatusDto } from './dto/update-task-status-old.dto';
 
 @Controller('tasks')
 export class TasksController {
