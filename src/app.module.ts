@@ -15,7 +15,7 @@ import { UsersModule } from './users/users.module';
       username: 'postgres',
       password: 'postgres',
       autoLoadEntities: true,
-      synchronize: true,
+      synchronize: true, // Remove for PRODUCTION
     }),
     UsersModule,
   ],
