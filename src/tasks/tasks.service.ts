@@ -8,7 +8,9 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class TasksService {
-  constructor(@InjectRepository(Task) tasksRepository: Repository<Task>) {}
+  constructor(
+    @InjectRepository(Task) private tasksRepository: Repository<Task>,
+  ) {}
 
   create(createTaskDto: CreateTaskDto) {
     return 'This action adds a new task';
