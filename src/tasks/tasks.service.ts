@@ -14,6 +14,7 @@ export class TasksService {
   create(createTaskDto: CreateTaskDto) {
     const newTask = this.tasksRepository.create(createTaskDto);
 
+    console.log('TasksService', newTask);
     return this.tasksRepository.save(newTask);
   }
 
@@ -21,17 +22,18 @@ export class TasksService {
     return this.tasksRepository.find();
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
+    // write exception if ID not found
     return this.tasksRepository.findOneBy({ id });
   }
 
-  async update(id: number, updateTaskDto: UpdateTaskDto) {
+  async update(id: string, updateTaskDto: UpdateTaskDto) {
     const task = await this.findOne(id);
 
     return this.tasksRepository.save({ ...task, ...updateTaskDto });
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const task = await this.findOne(id);
 
     return this.tasksRepository.remove(task);

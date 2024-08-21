@@ -3,12 +3,11 @@ import { TaskStatus } from '../tasks-status.enum';
 
 @Entity()
 export class Task {
-  // Will switch to using UUID after confirming that endpoints work.
-  // @PrimaryGeneratedColumn('uuid')
-  // id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  @PrimaryGeneratedColumn()
-  id: number;
+  // @PrimaryGeneratedColumn()
+  // id: number;
 
   @Column()
   title: string;
