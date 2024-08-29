@@ -6,41 +6,90 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { Task } from './entities/task.entity';
+import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 
 @Controller('tasks')
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
+  // ********** Ariel **********
+
   @Post()
-  create(@Body() createTaskDto: CreateTaskDto) {
-    console.log('TasksController', createTaskDto);
-    return this.tasksService.create(createTaskDto);
+  createTask(@Body() createTaskDto: CreateTaskDto): Promise<Task> {
+    return this.tasksService.createTask(createTaskDto);
   }
+
+  @Get('/:id')
+  getTaskById(@Param('id') id: string): Promise<Task> {
+    return this.tasksService.getTaskById(id);
+  }
+
+  // @Get()
+  // getAllTasks() {
+  //   return this.tasksService.getAllTasks();
+  // }
 
   @Get()
-  findAll() {
-    return this.tasksService.findAll();
+  getTasks(@Query() filterDto: GetTasksFilterDto): Promise<Task[]> {
+    return this.tasksService.getTasks(filterDto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    // return this.tasksService.findOne(+id);
-    return this.tasksService.findOne(id);
+  @Patch('/:id')
+  updateTask(
+    @Param('id') id: string,
+    @Body() updateTaskDto: UpdateTaskDto,
+  ): Promise<Task> {
+    return this.tasksService.updateTask(id, updateTaskDto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto) {
-    // return this.tasksService.update(+id, updateTaskDto);
-    return this.tasksService.update(id, updateTaskDto);
+  @Patch('/:id/status')
+  updateTaskStatus(
+    @Param('id') id: string,
+    @Body() updateTaskDto: UpdateTaskDto,
+  ): Promise<Task> {
+    const { status } = updateTaskDto;
+    return this.tasksService.updateTaskStatus(id, status);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
+  @Delete('/:id')
+  deleteTask(@Param('id') id: string): Promise<void> {
     // return this.tasksService.remove(+id);
-    return this.tasksService.remove(id);
+    return this.tasksService.deleteTask(id);
   }
+
+  // ********** Marius **********
+  // @Post()
+  // create(@Body() createTaskDto: CreateTaskDto) {
+  //   console.log('TasksController', createTaskDto);
+  //   return this.tasksService.create(createTaskDto);
+  // }
+
+  // @Get()
+  // findAll() {
+  //   return this.tasksService.findAll();
+  // }
+
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   // return this.tasksService.findOne(+id);
+  //   return this.tasksService.findOne(id);
+  // }
+
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto) {
+  //   // return this.tasksService.update(+id, updateTaskDto);
+  //   return this.tasksService.update(id, updateTaskDto);
+  // }
+
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   // return this.tasksService.remove(+id);
+  //   return this.tasksService.remove(id);
+  // }
 }
