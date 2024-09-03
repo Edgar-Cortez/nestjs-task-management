@@ -1,7 +1,13 @@
 import { DataSource, Repository } from 'typeorm';
 import { User } from './entities/user.entity';
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
+
+// define an ENUM called UserErrors that will have descriptive error names that we can use instead of passing error code
 
 @Injectable()
 export class UsersRepository extends Repository<User> {
@@ -17,6 +23,15 @@ export class UsersRepository extends Repository<User> {
       password,
     });
 
-    await this.save(user);
+    try {
+      await this.save(user);
+    } catch (error) {
+      if (error.code === '23505') {
+        // duplicate username
+        throw new ConflictException('Username already exists');
+      } else {
+        throw new InternalServerErrorException();
+      }
+    }
   }
 }
