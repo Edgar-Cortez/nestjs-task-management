@@ -4,6 +4,7 @@ import { Task } from './entities/task.entity';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { TaskStatus } from './tasks-status.enum';
+import { User } from 'src/auth/entities/user.entity';
 
 @Injectable()
 export class TasksRepository extends Repository<Task> {
@@ -14,13 +15,14 @@ export class TasksRepository extends Repository<Task> {
   /* This method takes a CreateTaskDto object, extracts the title and description, creates
   a new Task object with these values and a default status of OPEN, saves the task to the
   database, and then returns the saved task. */
-  async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
+  async createTask(createTaskDto: CreateTaskDto, user: User): Promise<Task> {
     const { title, description } = createTaskDto;
 
     const task = this.create({
       title,
       description,
-      status: TaskStatus.OPEN, // default status
+      status: TaskStatus.OPEN, // default status,
+      user,
     });
 
     await this.save(task);
