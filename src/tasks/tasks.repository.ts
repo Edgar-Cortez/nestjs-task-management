@@ -32,10 +32,11 @@ export class TasksRepository extends Repository<Task> {
   /* This method allows you to filter tasks based on their status and/or a search term that
   matches the task’s title or description. It uses TypeORM’s query builder to dynamically
   build the query based on the provided filters. */
-  async filterTasks(filterDto: GetTasksFilterDto): Promise<Task[]> {
+  async filterTasks(filterDto: GetTasksFilterDto, user: User): Promise<Task[]> {
     const { status, search } = filterDto;
 
     const query = this.createQueryBuilder('task');
+    query.where({ user });
 
     if (status) {
       query.andWhere('task.status = :status', { status });
